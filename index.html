@@ -19,18 +19,38 @@
     <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav ms-auto align-items-center gap-3">
-        <li class="nav-item"><a class="nav-link" href="#">Portfolio</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">Explore</a></li>
-        <li class="nav-item"><div class="nav-avatar">RN</div></li>
-      </ul>
+    <div class="ms-auto d-flex align-items-center gap-2">
+      <!-- Profile dropdown -->
+      <div class="dropdown">
+        <div class="nav-avatar" id="avatarDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;" title="My Profile">RN</div>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="avatarDropdown" style="border-radius:14px;border:1px solid var(--border);box-shadow:0 8px 24px rgba(0,0,0,0.08);min-width:180px;padding:6px;">
+          <li>
+            <a class="dropdown-item" href="#" onclick="showProfile();return false;" style="border-radius:8px;font-size:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="5" r="3" stroke="#6B6B6B" stroke-width="1.4"/><path d="M2 14c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="#6B6B6B" stroke-width="1.4" stroke-linecap="round"/></svg>
+              My Profile
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#" onclick="openSupport();return false;" style="border-radius:8px;font-size:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#6B6B6B" stroke-width="1.4"/><path d="M6 6.5a2 2 0 113 1.732V9" stroke="#6B6B6B" stroke-width="1.4" stroke-linecap="round"/><circle cx="8" cy="11.5" r="0.75" fill="#6B6B6B"/></svg>
+              Support
+            </a>
+          </li>
+          <li><hr class="dropdown-divider" style="margin:4px 10px;"></li>
+          <li>
+            <a class="dropdown-item" href="#" style="border-radius:8px;font-size:14px;padding:10px 14px;display:flex;align-items:center;gap:10px;color:#DC2626;">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M6 14H3a1 1 0 01-1-1V3a1 1 0 011-1h3M10 11l3-3-3-3M13 8H6" stroke="#DC2626" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Sign Out
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </nav>
 
 <!-- MAIN -->
-<div class="container-xl py-4 py-md-5 px-3 px-md-4">
+<div class="container-xl py-4 py-md-5 px-3 px-md-4" id="dashboardPage">
 
   <!-- Header -->
   <div class="mb-4 fade-up">
@@ -74,13 +94,16 @@
     <a href="#" class="news-link">Read More →</a>
   </div>
 
-  <!-- Section Header -->
-  <div class="d-flex align-items-baseline justify-content-between mb-3">
-    <div class="section-title">Your Investments</div>
-    <div class="section-count">3 active positions</div>
+  <!-- Toggle -->
+  <div class="toggle-wrap mb-4">
+    <div class="toggle-pill">
+      <button class="toggle-btn active" id="btnMyInvestments" onclick="showTab('myInvestments')">Your Investments</button>
+      <button class="toggle-btn" id="btnOpportunities" onclick="showTab('opportunities')">Available Opportunities</button>
+    </div>
   </div>
 
   <!-- Athlete Cards -->
+  <div id="myInvestments">
   <div class="row g-4 fade-up-2">
 
     <!-- ECHEDRY VARGAS -->
@@ -115,10 +138,7 @@
           </div>
         </div>
         <div class="card-footer-inner">
-          <a href="#" class="view-btn">
-            View in DealMaker
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          <div class="closed-btn">Closed</div>
         </div>
       </div>
     </div>
@@ -166,8 +186,8 @@
           </div>
         </div>
         <div class="card-footer-inner">
-          <a href="#" class="view-btn">
-            View in DealMaker
+          <a href="https://cart.finlete.com/?id=3999" class="view-btn invest-btn" target="_blank">
+            Invest More
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
@@ -206,18 +226,482 @@
           </div>
         </div>
         <div class="card-footer-inner">
-          <a href="#" class="view-btn">
-            View in DealMaker
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M9 4L13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          <div class="closed-btn">Closed</div>
         </div>
       </div>
     </div>
 
-  </div>
+  </div><!-- end myInvestments row -->
+  </div><!-- end myInvestments -->
+
+  <!-- AVAILABLE OPPORTUNITIES -->
+  <div id="opportunities" style="display:none;">
+    <div class="row g-4">
+
+      <!-- WINSTON SANTOS -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap">
+            <img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAEgAgADASIAAhEBAxEB/8QAHQABAAAHAQEAAAAAAAAAAAAAAAECAwQFBgcICf/EAEQQAAEDAwIDBgMECAUDAwUAAAEAAgMEBRESIQYxQQcTIlFhcTKBkQgUocEVIzNCUmKCsUNykqLRFiThJUTwRVNjwvH/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAQIDBAX/xAApEQEBAAICAQMDAwUBAAAAAAAAAQIRAyExBBJBEyJRBTLwFEJhcbHh/9oADAMBAAIRAxEAPwD1FxHeZRO+jpZCwM2e8cyfILXXOc5xc5xcT1JyUe4ve57jkuOSVKs7dryCIigEREBERAREQEREBERAREQEREBERAREQEREBERAREQEWG4x4osvCVnfdL5WNp4AdLGDeSV3RrG83H+3XC88cbfaA4mrjI3hungstFnS2V4EtQ75nwtPoAfdXxwuXhXLKYvSt5uVBZrVUXW61cdHQ0zdU08h8LBnA/EgYVrwpxJY+Krc64cPXGK40zZDE58YcNLxjLSHAEHcdF4d4h4p4hvji673y5V+TnE9Q5zc/wCXOB9FhBXVkMxfBVTwnbeOQtP4LX6H+Wf1n0TII5ghQXhHh7tL45sJH6N4pubGD/ClmM0Z/pfkLvPZH2+01+rYLLxfDT26umIjgrYfDTzOPIPBP6txPXJbnyVMuLKLY8sruqKJ2OFBZNBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMxzmHLXFp8wcLYOHLzMahtJVvL2vOGPPNp8j6LXVNG4ska9pwQcgqZdCVERQCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICg9zGMc+R4YxoLnOPJoG5JUVpXbldzZuy68zxvLJaiMUsZB3zIcH/bqUybui3TzN2vcZVPGfF1RXukf9xgc6GghJ2ZED8WP4nY1E+w6LQ5gSVv3AvBcHEluuN4ul/prHaaCWKF80kL5XyyPDi1kbG7l2Gkq8svDvCR4m4idO+4Vdhstu77vqpklO+SZz442a2sGtrS55w3ntv6dksnUctu65c5rsbq0kzqXW7VS8Ix0EdzrbdTGmdb7jVuia8l+kzshgDdbidTRrc0HfnzWqX2323vpKK2TUdS6G307I5tbGd7I5+pz8k89OM53HI4VtmmmZU7PLoVk6imggssE/3eKSQMLpXBxz8ZGCQ7bb0V9UWigaLjI01EUdF3bd3tOtzmk7Zx5YxzUq6em/szdoEvFHDbrBdptd2tcbQ2Rx8VRBya4+bm7NJ67HzXYF4o7A7w6y9qNknL9EU04ppvIskGg5+ZafkvbBBBIOxXJy4+3J08eW52giIslxERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFyP7U0jhwNQwg7SVpJHnpid/yuuLkv2oI9XB1tkxsyucD84nf8K+H7ojLw8+8KX+SxUtydDLOyplgAoy1/himyAZMci4Rl4B6ZPmsDV1dXK+okkqpnOqXa58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" class="opp-photo" alt="Winston Santos">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">Rookie</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 3</span>
+            </div>
+            <span class="opp-position-pill">⚾ Starting Pitcher (SP)</span>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAEgAgADASIAAhEBAxEB/8QAHQABAAAHAQEAAAAAAAAAAAAAAAECAwQFBgcICf/EAEQQAAEDAwIDBgMECAUDAwUAAAEAAgMEBRESIQYxQQcTIlFhcTKBkQgUocEVIzNCUmKCsUNykqLRFiThJUTwRVNjwvH/xAAZAQEAAwEBAAAAAAAAAAAAAAAAAQIDBAX/xAApEQEBAAICAQMDAwUBAAAAAAAAAQIRAyExBBJBEyJRBTLwFEJhcbHh/9oADAMBAAIRAxEAPwD1FxHeZRO+jpZCwM2e8cyfILXXOc5xc5xcT1JyUe4ve57jkuOSVKs7dryCIigEREBERAREQEREBERAREQEREBERAREQEREBERAREQEWG4x4osvCVnfdL5WNp4AdLGDeSV3RrG83H+3XC88cbfaA4mrjI3hungstFnS2V4EtQ75nwtPoAfdXxwuXhXLKYvSt5uVBZrVUXW61cdHQ0zdU08h8LBnA/EgYVrwpxJY+Krc64cPXGK40zZDE58YcNLxjLSHAEHcdF4d4h4p4hvji673y5V+TnE9Q5zc/wCXOB9FhBXVkMxfBVTwnbeOQtP4LX6H+Wf1n0TII5ghQXhHh7tL45sJH6N4pubGD/ClmM0Z/pfkLvPZH2+01+rYLLxfDT26umIjgrYfDTzOPIPBP6txPXJbnyVMuLKLY8sruqKJ2OFBZNBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBMxzmHLXFp8wcLYOHLzMahtJVvL2vOGPPNp8j6LXVNG4ska9pwQcgqZdCVERQCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICg9zGMc+R4YxoLnOPJoG5JUVpXbldzZuy68zxvLJaiMUsZB3zIcH/bqUybui3TzN2vcZVPGfF1RXukf9xgc6GghJ2ZED8WP4nY1E+w6LQ5gSVv3AvBcHEluuN4ul/prHaaCWKF80kL5XyyPDi1kbG7l2Gkq8svDvCR4m4idO+4Vdhstu77vqpklO+SZz442a2sGtrS55w3ntv6dksnUctu65c5rsbq0kzqXW7VS8Ix0EdzrbdTGmdb7jVuia8l+kzshgDdbidTRrc0HfnzWqX2323vpKK2TUdS6G307I5tbGd7I5+pz8k89OM53HI4VtmmmZU7PLoVk6imggssE/3eKSQMLpXBxz8ZGCQ7bb0V9UWigaLjI01EUdF3bd3tOtzmk7Zx5YxzUq6em/szdoEvFHDbrBdptd2tcbQ2Rx8VRBya4+bm7NJ67HzXYF4o7A7w6y9qNknL9EU04ppvIskGg5+ZafkvbBBBIOxXJy4+3J08eW52giIslxERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFyP7U0jhwNQwg7SVpJHnpid/yuuLkv2oI9XB1tkxsyucD84nf8K+H7ojLw8+8KX+SxUtydDLOyplgAoy1/himyAZMci4Rl4B6ZPmsDV1dXK+okkqpnOqXa58vP605zl3nvvupgA5oIBOfRSSwuLdzhdGPHjjlcp5rkmEmVy+axr2jJ25eisX7vxj6rJTQFp/afVWMsWDnVnPqtU1bO+JXtDV1UAeIKmaMStxIGvIDxjGD5/NWrmDKqwADplREVlLLMae4QztcWuje17SPMOB/JfQQO1gPHJw1fVfPSjexswL8tHLYeq91cEcX2DiylndYax1UyjLY5XmJzGk42Lc/E0lpwfQrDnnhtxNhREXO2EREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAXlntxufEA4puVgrqqqkom1vfRxv8TXnB7tzBjLfA/BA2J3xleplx7t9sUlRe7JdqUFsgJDyOTtHiwfXSTj/AC4UXP2fd+G3DhOS3D8vOdwo7nRxOmkt08QxsZRpJ/p5/gtdq6i4Fx7wSR+gaQu/Xa0C70YljnlieRh3dgEn6rmXGfDwoYsCWufLrJ1mTm3yI/NW4fWfU89Leo9D9P8Ab20aOF8x2JJ355U7aU4Oo8lsfDVpqZ5XTTQyfdwfDqJ+ZWGuAIqpw0ANDsABdM5JllqOa8Ptx91Y57SHYDfqVk+H7RNc6psAq4oATgveRgf2WLAOXNcM56+Sy0FRG+kip+4b3zDpicxoboHXcbkk9T8lfdYzGfLP3HgivoKCa4Gto6mkhaXOfC52oj0BH5r0L9la393wpdL02MRxV9RFHC3ybFEAflqc5citFFO3s1uIqnkMeNDC4+ZwV6Y7KbM7h/s7strkj7uWOnEkrfJ7zqP9wPksOTK2ab44yTps6IixBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFiOLrHFf7NJQvk7qQHXDKB8D8EA+o3wQsuiWbmqtjlcbuPP1G6qsl+qbNVlpkgkMZcDsfUH1WP4xtlLJOK2eXUw76cbZWz9tFB9y4viuLBhtXCH5/nb4XfhpWmVzZbnDHRiXDTs5zj0Xn5Y+zPp7nHn9Tjlqz4fnhqqd8c7IaS3PLmslc4ajjYnTnJGduS5fdoYf++ljkZlkze7BO7snBXSrjZ7VHVwSTULJo4mYhMrmt355APPfyXMuKKWHvXyucIp3Oz3Tnasg9dtgu30v7tuL1n7JJ8MPVwyQTBkgALmh7SHAgtIyDsshYaZ09dGxmee5Cxmh3xOz5ZW6cGW90D21bskkZbgfRd2V1HlY913Dszt1Jcr/a7TVQsmo6GJ1XoPJ8jMaCR1AJBwu6eq4v2IuJ4vfnGf0a87f5412cLmyvbUREVUCIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIOZ/aBh02a2V3SOofEf6m5/u1cXmqHR0rjG/xO2B8l3Lt6cw8I00DiNT6xpDSd8BrsnHzC8/1XeUzyD4ojy9Fz8mO8npenys4ls6go8PqbxfK8zOGWlrWgf8A8Wm3eK1Fz3CsnkkzgDUDt0W81sFHLQjv5Dvvj0WmXs2oOMVDTaXN+J2SSSungy3WfPfbjrphm00bmtMc7i/PwnoPNdB4aJhs7I5iME5B64WocN08c1W50hxgYb7rI3i7MGKGkfljRpc4f2C6cu+nn49O7/Z5qm1PFtVIDsaF7Wj0D2LuwXlvsWv1Jw9f6GuuE/c0ml8VQ/GdDXjAJA3wDpzhel7LdbZeaFtdabjS19M44ElPIHtz5HHI+hWGU1V16iIqIEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBEXNu0ntcsvDEststoZdbyweKNrv1MB//I4df5Rv5kK2ONyuoi2Ty6DdK+itdBLX3KrhpKSIZfNK8NaPn+S4pxp2/QwVQpOFba2ZuTmsrWkB2P4YwQfm4j2XFuNuMb3xLc++vFxlqXZyGE4jjHkxg2aPxWv1LzI1rmkZachdOHBJ3e2WXLfh1GzX2rvxrKu6S9/X1dVJM97icuYA0BjR0a3OzRyyqFxpsPJAz6LTKCpc/huokhkfFVW+sjqI3NOHNa9pjd/uEf1WUt3GTJA2K6w6H8u/jb4T6kdPkuLm4M/fcsXpen9Vh7Jhn0oX6kqnxF1G8x6Rlzc5BPotJmbVsld3rS09ThdJrKiklY2alnjlif8AwPBWsXelfKXODfCr8Oeuqp6jjl7la2yeaNpjjeWg8yNlCneI3ZO+N1dVlIKdmp7mgnpndY6WUAeELsl34cV+3y2WO/ikoHRxaZZngAB3wj3UvDnGd94Qus9TwxdZ6aSRw7/k6ObH8TDlpGc+oytVDnkukOcD+6lSYxnnna9JcD/aTLWx03GFpEnIGsoNne7o3bfQj2XcOEOM+F+LYi/h+809Y9ozJBuyaMfzRuw4e+ML5/ArIWmunpaqKWGolpp4jmGoieWSRH0cMEKuXDL4MeWzy+iCLzP2bfaBuNFPFbONmfpCDIb9/iYGzxjze0bSD1GHe69G2e5268W6K42qugraSUZZNC/U0+nofMHcLnywuPltjlMvC7REVFhERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAWucdcbcPcG0H3i81rWzPGYaWPxTTH0b0HqcD1Wg9sfbNScOsms/DL4qy6jLJKn4oqc9cdHv/AAHryXm+asq71cJbjdaqarqZiXSSyu1OefUrfj4fd3WeXJJ4dJ477ZOJr/DNHRSGzWx+Wthp3frXj+eTn7huAubsdJDRmR2O9l5Z2AVOZ3ePaZDiMfuhVbfRi+T1h78QU1HG2R3rkgfIYyfkurHH4jnzz63VzxE6G31P6IopnRtiOmWQtLTI4AZfvvueQ22xssLMZRDM57hGXkBpEZcImjc9Bl3z81lqu1snlN17yOlkkfrYySQOc0DGCTk7nnvuM4VkbLBI/vPvDpXnckRPfuTuc4WvLbaz45qf7WkVdp+8GmqmsbPD3Gkxn4diSfMnHyUs00MbyJHMOhhB8BGX77nfbHkPJX8lup6ZngiqyfMxtaPxKxc9PTgOIgqgcAnOg4WWmu0I30sjohkZ0nU5hw57ugAPIct1T7yM6WOlIkJw4OOzd/NSd1MyRssTZHaSC12jBGN/VWj/ANuZHtBeX6njOAd99k0Wrt7RnGQ4eYKoSsIcW4OeWMbqnqDrgZGtMUb350B3IdBlZiaqkkgMhgmE8DckSkO0nbxg4HrseuN1OldsbWR901tMOce7z1LzzHyG3vlWpCrHkXZJUHN5KsTaonZVocOOFSlGCFNDlrgUQnqiXOaHc2txnzWzdnnH3EXBFxFVZq1zY3H9dTyeKGYeT29fcYI81rsoEkZPUK2alkvlMuvD2j2adtPC3FcEdPcZ4bHcyBmGplAikPXu5DgH2OD7rp7HMkjbJE9r2OGWuacgjzB6r5yU5zM1p+HIyur9hPazW8I8Qx2q51DpOGquUMfG4k/cyf8AFj8h/E3kRvzG+GXD+G2PL+XsRFJTTw1NPHUU80c0MjQ9kkbg5r2nkQRsQp1zNhERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFwDtq7VJ6upn4b4XqTFSszHV1kZw6V3IsYejRyJHP257R9ofjOpsVrp7Da5+6q69jnVD2nxMg5YB6FxyM+QK8zTz6Z21DfgPhd6Lq4uLr3VjyZ/EWlwPeUUg/wASB2/qCoUkhMDMc+SnuTcVIcz4Z43NPvhW9rd4QTyaMldDBG7TBkhjZ8RCjZa37lHVxOc4MqYdDgDjKxz5DPWPeevJdK4eoqC21dHRz2yke77i2eonnJDi9+4G/TpsNsK2Pul3j8K5e2/bl8tfqOLr8LU98ddDTwxvEcbDCwzOGOeSOSxT75f5WB771E0EfCJBnHsAui3qittdUmaWaGU6Rp7ilOG7chsAAteuNspmPJDKkj1psfmq2f4X3q+WoSVVxeCReInk8w97mn8QqD6u4wAyOnp36vJzXZ+iy1XFSxyaXRnGeTm4OPJY6SKjLwAwnYj4wM+Si4/g2t3XF0zXCWPuyW4JZsCPUKxlcBKWuwQdx1V5PD3biWN8PQGRp/NWErSDktd7lR2dVGQadwdTDzyOSyVLdgKF9LLEHPIwyQdR1a7zHL6BYpsxZ1OCMEZ2O6PjyDLEHFnqeSb0mza4bqU/7qoUQlmnjgjxrkeGjJwMk9T0XZ/+lOELDbKUX6KlfNgMmqJZXtDnnfbB5eXoEQ41OPDlQbktC63c6XszdR6KN9qE2dyKl4/NaTxxTcNUbKeGxgvqHeOWRlQXxtb0Huffb5oNcjk0uGRsqcwLJXDO3RSh4xpdyKT5cyN3XGCiE0TtIc/yCmpC2M9/ISBHjA/icqTXfqXfRRdjSxjjlo8Wkc3FEu5fZt7R62wX2Dh25yl9kuNT3cLXnelmecBzfJpOA4eufPPrE8188IJXRuZpdofGMgt6O55XtrsY4zZxtwRTV00jTcqbFPXsB37wD48eTx4vr5Ln58P7o24st9VuiIi52wiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAhLWgue7S1oy4+QHMotL7a746w9nlfLFIWVFZiihI5gycz8mhymTd0W6m3mvtK4lk4m4suF31EwyyaaYH92JvhYPoM+5K0+VwbNuP1cmxHqqjXl0Gg82kt+hKoTgSQlpODjAXozqacdu1Jzi2N8LjkwkSxnzAKpTO+70tRjm84Hoqfel+7uekxu9Cqd0fmni/mblEJLYwPLnHoFs1u4pr6KqNdDG1z3wRwuBbkHQDgrBWqMClc/qQukcM22yxtttuls8FXNUUpqJql0hLuh5cmjxAfJT3qoutzflrV64z4nqoYZJH9zHMD3bInkHY4ORnI+awFTd7vKGiV8mHDIBPP8V1Kus3C9PIXmhogASMul/wDPvlYK+s4Pha6Nn6P1DIJjdkkYPr6D6rO3H4X1lPLQ6iO6uhZUup3927driRv+KxxqJYjh2pp9QszWT2YzvEMLXtJz4Y1ZOnpixobQuyDvhpwp8nSxfU95EA45fk5J5qkx51YDgOuyvZQdBAo37uBzoOw2VtI12pxEDhk5G3JNaFOVrm/tMO/upqJrZKqOMFzQ4nPtjJUrnSDYsGPVgVe1Od+kIw6MDLX48OP3HKce7Fcr0yl2np6aidQvomwVjdmTMY0NljOMhw68tjzCi3iGW6SW+G7TPmFE0RxMO7X5OMnzPIb8wAPfHXuoE1VNqJOHeHPQK1tgYKxk8gzHB+tcPPHIfM4HzVNfDTJs9bX2MZjEcBdjm2HI/stfuc1O+bTSxsZG0Yy0Y1HzV7dbbOyhp5ywvnYGslDBsWuGpjvocH2Cw88csbi2WKSMjmHNIIWfHhMfDOYe1KSpw7VA8dQdlSyoxnZ3yWu1kA7wEeqqRuwTK4ctmj1VIoSSGg9FIvqebcOcdyundh3G3/RfG9LU1EhFtrWinrm52EZdhsnuxxB9tS5PAC+VkY6uCyPfNnlqf4BTuCWSzVRLq7fRY46EEeYOyguf/Z54mfxT2U2mrqJu9rKRpoqok76o9mk+7NJXQFwWaunXLubERFCRERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFxL7VlwEVDw9bg/9pPPM5v8AlYGtP1cV21eVPtJXkXTtBqoY5Q+K2MjpmY5Bw3f/ALnEfJa8M3ltTkusXMZSYqx7f3ZBqb79VbyO0POeTuvkVcVwE0YMZ8Q8TD6q0c4T0+obY/Artcy3qiWztLRlrtj6qncgWxwjnpBCqAiWMsPsqWHPhcx+7oz+HmopFzbXEsa3PusvUXmVsFG4RQTTQtkie2WIFpaSCD77LCW52JAFnrayKKmlrpaNtSWSBgMjS6GIZ3c8Dc9QNxjGVphu7k+VOSY9ZZfCyff6qQOMVqt7Q34i2lJA99yrSS63B4LxDTsA5ltMAAsjW3W1NM1ObCymk1BsjDVyvDgOXUbKpaJ6OqrtBs9I6MNc4xQx6S7AJAzueYWXJncJbd9NOLCcmUk1212e51bj4qprfbA/srY1k2oONU4kHPxZW519q+6ve+SCA0743ywyMaHeFo1dBvthv1Kg+wg/dZPu0Tw8NMrmtADQegHUj8Vh/U4edur+h592THw01stTVPcGPke5rS87gAAczlUXiTvDG4HUOe6zl7ghda6UUsAgmmfJJI0NxkNcWtBPLbH1KxArJY2Ojj3iI07tAJzzyepXRdTpySXzUTGWMDY2anY3cXDb23VOB8kNTHKXt8DgfjUHd5I1z9RJPMDmVbE74UbNbXd0LXFszMEOaNwc4IGCPwz81SpsaMOwGAh78cyegUjXuYNjkHmCqxc3SWSQNzjbBwQU89ptdB4nEb6MOxpH6FjZLg5a6eP90HqRqjcc+R57rnlRVyzx6JCDl5eT5k810bgCot0lpd+m5mVMRMskMT2ai2cR6RknqdQxjyOfXQL3a6q1Vz4KhmBqIY8btd7FUk1atbuRjyUaUUqmqpkUqJtNV436GucPjIwD5eZVSJ5jo5ndZMMHtzP5K2VSdw0sjachjefmTzU7Vdq+yrxgeHOK4bVWS6Lbe3/dnajtHOD+qf8AMksP+YeS9flfOtgdDa4WNc5r86wQcFu/P32Xt3sR40Zxz2f0dzleDcaf/trg3r3zQPF7OGHfM+Sw5sf7m3Fl8N2REXO2EREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERBh+Nb9DwzwrcL5MQDTQkxA/vSHZjf9RHyyvF1TLLWOnqalxklne6R7jzJJyV3D7VPEQL7bwrA/OkffarB6nLY2n/AHH6LhcjtMWPNdnDjrHbn5bu6Y6mdiN8Z+KI/UK2e7uqoOH7OTYjyKrVGGVbXjk/wlUajD2OYfktma2ee7lfz2Km1NEjXj4JPCffoqQdq0lx/leoMaf1lO7fG4VUqozDUjyzssuJK40kraeLvoIh3s2YdYjBIGSceEZwtl7Ouzq6cSwx3C6arba+YmcP1k4H/wBsf/sdvddUqZrNw5ahZrNRxxxZ8bc6nS+r3H4s+q5eb1uPFdY913+n/T8+bH3ZdR51ucz3CnmMUOqSIFx7scwS3b6KFHNTvhd3xgic08xADseq3LiWx0M9xlYxoo2sia9jIx4AXOdnboPZafVWp0chDJWux6YXVPUY5Xf+v+OK+lywmvxb/wBR7qkmBa26UoOMBhp3ZO2Mc/JW1WZIqkthrNcOSGv0uaTsOgP/AMwqVRR6PiLR78lbYDWljZmBpOSNfVWueNn7Wes5eqv6qaqLGslq6d4jGB4nNP8A5VgNOk5hB9Q5TBw06HSRvb6nOFGJj3jSxus+iWzK9E3PKnHI6CYSxBzSPUFUtMTxjBa7JOo8zlV8BzC5zHBoIBOFQcA3DgTg8iVWxaWJdH8Sq0zHTzNjLS48gAcZ8lANyBkbuGWjqQrukoKmWNk+QyN27SDv+CjcnksuXUZngemFRLJLPI4U9M9kjWdHPGcfTK2e9fda+N8dRGJInevX08itWgnqKZjyHBznDBcRufU+ZVkamsjcHtkdz5dFlnl7q6MMfbj2tLxZZ6ImSEmaAfvAbt9x+axK6Hw5UQ3Rj6aoLYajGph6H0WKvfDkb5XugAgm6gDwO/4SZfFReP5jUCVEKpW0tRSTGKojLHdPI+x6qirs9JlPCzvJWszjJVJTxvczOk4JGMqVay88gIGDgBuB7Lo/2a+ODwjx5HS1k+iz3dzaWq1HwxSE/qpfk46T6O9FyYTalctDYiDL4MjOHAhTZMppWbxu30fRaH2C13Etf2ZWyXiillhqmN0QSzH9ZUU4A7uR4O4cRtvuQAeq3xcNmrp1y7mxERQkREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAVvc6sUFtqq90Mk4poXzGOMZe/S0nSB5nGFcIg8R3niGv4x4jrbs6Gqq6upfrcGNy2Nu+lo8gBsPZWFbR3OCIyTUFSxvUmLI+oXY+ILHYuHuM71DZ7fJP3tUZBTMbkNkLQXNHkwEnnySitlIGd7XRtlqXHPctdmKL0/mPry8vNWy9Zcb1OnXx/p05MZbe3BXslqWEQwyyE8u7YXY+ii+guB/wDp9Xk7/sXf8Lv76SjDTlmG9GN2H4K6p7VG7D393TRkDn8RHmq311viLz9Knzk4DQ8HcR3CpDKa1TDWP8TDf7rp3BvZhRWqWK5cTuhrKtgDmUbDmJh83n9/25e63iavorbSFlENLyMF53J+a1K98QyOjdExxOevmsc/V8mf2xvx+g4eK+69s/feICGmGCQF2MZHIDyHkFr4BYx1TUnLue6xlHIGN76XYrDcQ317mmNjsBc+HFbdOjl5pJurDiq4a64Swv2LDE765C1qpmDGkkq61Pm7xhy5zxke43/5HzWAratskpcP2bPxXsYcescf5/Ph4HJy/dl/PP8A7tTudS5wEefUrGqaRxc4knJKlWrn8jearRPew+Fzm+xVAcypw5C+FZ80jWgNcRvnmqD6iR2NZa7Axu0I93hVEpcqiSKple+Mt1YHkNlVoa+qonO7l+WO5sdu0q2HJSnmq3vyvj9vhnaa8Gpf3c8bIyeRbyyrmQNxkrWFlrbVmVvdSO8Y5HzVLjrw1xz35XMjyxwdG4tI5EdFkqS/PLBFWs16eT+qxkreqtnBRFm1yMorjSnZkreoPRa/X2OKMkxNIHlqKtIppYJA+N5afRZy3XSKpj7mpw2Q8j0KnWvCLq+WtOpo2/xfVTNpYHN5uB9CtiultbMzvI+vJYOOF8cmh435K0u1bNKlLQzROE9I4SuH7hHiXaOxKosF64msb7/QQ1Ypp9EQmGRFMRhjiORw7Gx2zg9FySgDo5m79cLbrNBPTVkd0oyWvGO/aD8Y6OH8zefrhVzTJHt1Fi+Erq2+cM266tcHGoga5+Ojxs78QVlFyriIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiApZ5WQQSTyfBExz3ewGT/AGUyxPGj3R8H3l7ThwoJiD/QUTJu6edJr1NPVVNU5x72rldLIfPJJ/NXlBVucMcyeuVqLJSJMdOSyEVY6NnhXBnLXvYZabRLcI4QBkamq2q7y/u3OLic+fVaxPWaG5c7HVYmsuT5CWMLsKceO0y5ZGXud5ke7RGcnorSNxYwyynMjuXorCFwj1SS/ErKuuDnbN2wt8ePfTlz5dd1fV9zIYW5wVrc0jpJC526jNK6Q5JWOuVWaeHb43bALq4+PTh5eX3eVK43F9PMxtO7EjHBxI6eixVVI2SaR0bO7a92rRnOM9FSJJOSckouudTTz8r7rtKoFCoFSSoIMoiA47KRVHKmeaqiQUqmUqJlFAFzXAtJBG4KioORLNW+sbNHoeBrA39VVljzuBhYBj3MeHNOCFmqOpFRHnO45hUs01xy30pvbvgqm4Fpy3ZXjowRlUHtwm1rF7bbtLAwxSjWzplXFRNSVD2yMwA7n7rDublGkxhFWxRRte8Bp3xtsths1zfQyta9gI5e3mtGpKuSN4cHfVbBTzfe4gcjUoq2L1D9na8tr7LdLc0+ClqGzRDybIDkf6mn6rqS8/fZMdKLxxDE4+D7rCT763Y/NegVhl5WoiIqoEREBERAREQEREBERAREQEREBERAREQEREBERAREQEREBERAREQFb3SlbW2yqon/AA1ED4j/AFNI/NXCi0gOBPIFEvGsUckbnB4JIJH0UZZHMjySszxYx1DxFcaBwIMFbK3HprOPwIWq3as0x4b8lzzHd09a5zHHalVVDpHlocod7FAwbAu57rFtqdUupQmmdIcZ2XRONy3l+VxU1j5CQ04Vscu3JUzWYGoqjcJHU0bHOY9pkYZI9TSNbRnceYyCMhbY4/Ec+fJ+VCunZBGXOP8A5Wu1Mz55jI87n8FPUSyTv1SOyqOFvjj7XHnn7kEUcJhWUSEIRsp8I4bJpG0gGyYU7RsmE0KbhgKkearyjDVQUVaJwPAqfIquR4FQPNKiQcpVM5SjmoW2geamhkfFIHsO/UeaEKAG6DNUtQ2ZgIPuFXLGuGU7OaOguHG1ot907z7hVVsUNRofpcGPdpJB6Hddf467BeKrFUyvsLTfrcMlhjw2pYPJ0f73u3OfILPLUrbHLbjckXkqTmbLKVlHUUtQ+mqoJYJmHDo5WFrmn1B3CspmkFItVtgjZZiyTAStBKxDs5VWkkMcoOeqVEeo/svxRC6X+aL4jS04k99b13Nca+yjZqml4Qr75VMcwXOdracOHxRRZGr2LnOA/wAq7Kue+VqIiKECIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiDz59pLheqt94HFdGxz6KtLWVRb/hTAYBPo4Ab+Y9Vwytme925JXu650NJcrfUW+vp46ilqIzHLE8ZDmnp/8AOS4Lf/s71Ml0c+zcQ07KBzstZVxPMsY8st2d77K2Ope2nvutODwx61v/AAL2V8UcUtZU09K2ioXf+6q8sa4ebRjLvkMeq7dwN2LcL8PPjqrgX3qrZuDOwNhafMR9f6iV00tAAAAAAwAOgVrn+Ffc5jwb2LcKWR8dTcw++VjDkfeG6YGn0j6/1Z9lxj7Vc0b+1iOBrWtZSWunj0taAGgl7sADYDxL1rheLvtF3CCu7XL1NT1EVRE3uYWvieHN8ETQRkbbHKvw7uTLlvTmtVD3b9Ld8KmGbZKruaT4nFSrpc21BwwVKAqjt3KcM8KJUtKg4Ku5uAqZCCRo8GfVQHVTuGGgKUciUFKXfZUW/EqhOXlSsHjKhMqo/wDZ/JUFX5xuPoqCipxSlAhRqhImN1FygERte2aodS10dRGcSxuD2H1aQR/ZfRiy17LrZqG6RnLKymjqB/W0O/NfN+lDjO0MBLjsAOZK+ivBdDLa+DrLbZwRNS0EEUgPMOEbQfxysubxF+PyhxJwxw/xJF3d9s9HXjGA6WPxt9njxD5Fci4x+ztaaoPm4YustDIdxT1g7yP2Dx4h9Cu6IsJbGzwrx52f8UcHvcb3Z54YM4ZVR+OB/s8bD2OCrjsd7PLjx7xLDTthmitELg+urA3wsZ/C08i93IDpz5Be4Xta9jmPaHMcMOaRkEeoUIYo4YmxQxsijbyYxoa0ewCv9S6RpSt9HS2+hp6GhgZT0tPG2KGJvJjGjAA+SroizSIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIMB2j2243ngK+Wq0yGOvqqJ8dOQ/Rl2Ph1dM8s+q8M3e2V1suEtvudBU0FXEfHBURljx8j09V9BVYXiyWa8tYLvaaG4CP4PvMDZNPtkbLXj5PYpnh7nz8cw4wpJGBoXWe1bhC0P7Wq3h7hmkZQMZFq7phLmd42MPcACfCDnGOS0G78OXe2OIqaRzmDm5gzj811zKVz3HTBRx9SFO4ABTSu0c2vGeWWkK3fJnZEDneEnyVMuB5D8Uc8AEEKnqCERe7ZSF3hR5VNzlG06RIGMqRxLGHfJJyoOdspGlz3hjRklRtMityps+ZVuqsuwDAchvM+qpJSQREULBQKOh5OzXH5LY7DaxE2nq6yIYdIBocMjBOMlWkRa23sc7OOMLhxpZKw8PXCCgFTDUPq6imcyFsTXhxdl2AdhgAZzkL3ASXEuPMnK0TsL4jfxH2e0jqlxdV25xt87ifiMYAa75sLfnlb0uTkytrfDHUERFmsIiICIiAiIgIiICIiAiIgIiICIiAiIgIiIIvBY8scMFpwVBbFxHZpTO6spGaw85ewcwfMeYWvOa5ji17S0jmCFIgiIoBERAREQEREBERAREQEREBERAREQEREBWl5uFNabTVXOsdpp6WJ0shGM4AztnZXa1Pj+GW51VssrXH7q55rK4D96OMjRGfR0hG3kxytjN3RvTktntFVHxTcuMrzE2Ge8N72lhLiXQRyOJIdkDfAYPmVla2lo6+Mh7GuB6reL7b6C5xRMrSQ6Nxc14G+VrtVb7lTMLqRsdbCOnwvH5f2WtyUsc4vvBlBPLyLATzafVcs4+oIeHuLKi1tpop6ZsbHsLsgnI3wR65XoKe4wNkMNbRz0kn87dj8+S5z228PMqrVFf6XMksB0yBoyTGT+ROfqtML2zynTmNNTcP1ZDZKqqtzz1czvWD6YKzEHZ+a6PXaeJbTVbZ0vD4z/YrVnQy7aY5DtvlhG/0V9ZqSqkudHC100PfStbrbkFoJwTstrj11WeN78M3H2X8UzF4hNskDBqc5tWMAeZyNljqzgO+0ztMs1ob5f+oR7q/reKK2fVTmllmt7HObBG5z2u0gkBznAgknn5LB3OrFVp7m1Gmc0DL26nOJ88uBWcmfyvvFLduErxboe9qvueMZ0x1THPx54zyWDLnRjSxunzJ5lXtS6qlAEoqJP82T+SpPZO8AOZJgDAGg8laRW1RpaaeqeWws1Ec1laOwSy4MsugeQCznANG9tFVzvgfvIGjLD0H/lZ4QF/+C7/AEFR4W01mOw2+Jv61hlI8yVVoLXTRXKCaKjY0Mka7z6+q2dlJG3xOid/oKuKOBklZG1kTs+rCm06cvrAGXGoA2DZn4/1FbHQk1tlqGZeTTtY94YMuDS4DV7ZI8+av7Zw/SU9Q2pqIHTucdRMrCRk89sYWe4ppXRwx3agp+8lp4y2WMsJE9OR4ozjpjKtLvpSSS7r0h2E8NM4a4Bga6ds9VXyGsqS0ghj3AAMGP4QAD65W+Lkn2arrLU2S4WqWokmjhMdVRd4PH93kBGCTzLXNLT8j1XW1w57l7detCIiqgREQEREBERAREQEREBERAREQEREBERAUzGl72sHNxACNa5xw1pcfIBbBw5ZphO2rq2FjWbsY7mT5kKZB//Z" class="opp-avatar" alt="Winston Santos"></div>
+            <div class="opp-name">Winston Santos</div>
+            <div class="opp-team">Texas Rangers</div>
+            <p class="opp-bio">I'm Winston Santos, 23 years old, pitching for the Texas Rangers. Ready to take my game to the next level.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">All-Star Futures Game</span>
+              <span class="opp-tag">Arizona Fall League All-Star</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$7,785</span>
+              <span class="opp-raised-pct">7.6% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:7.6%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.08</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>12</strong></div>
+              </div>
+              <a href="https://cart.finlete.com/?id=3999" target="_blank" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMILIANO TEODO -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#1a2a1a,#2D6A4F);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">AAA</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 11</span>
+            </div>
+            <span class="opp-position-pill">⚾ Starting Pitcher (SP)</span>
+            <div class="opp-photo-initials">ET</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#1a2a1a,#2D6A4F);">ET</div></div>
+            <div class="opp-name">Emiliano Teodo</div>
+            <div class="opp-team">Texas Rangers</div>
+            <p class="opp-bio">I grew up in the Dominican Republic dreaming of one thing — making it to the Major Leagues.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">Top 100</span>
+              <span class="opp-tag">Top 10 2B Prospect</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$4,837</span>
+              <span class="opp-raised-pct">5.3% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:5.3%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.83</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>11</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIRSO ORNELAS -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#1a1a2e,#3B5998);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">AAA</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 11</span>
+            </div>
+            <span class="opp-position-pill">⚾ Outfield (OF)</span>
+            <div class="opp-photo-initials">TO</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#1a1a2e,#3B5998);">TO</div></div>
+            <div class="opp-name">Tirso Ornelas</div>
+            <div class="opp-team">San Diego Padres</div>
+            <p class="opp-bio">Hi, my name is Tirso Ornelas and I've loved baseball for as long as I can remember.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">MLB Debut</span>
+              <span class="opp-tag">2024 Padres Player of the Year</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$9,441</span>
+              <span class="opp-raised-pct">11% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:11%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.71</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>21</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LUINDER AVILA -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#1a2233,#1D4ED8);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">MLB</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 5</span>
+            </div>
+            <span class="opp-position-pill">⚾ Pitcher (P)</span>
+            <div class="opp-photo-initials">LA</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#1a2233,#1D4ED8);">LA</div></div>
+            <div class="opp-name">Luinder Avila</div>
+            <div class="opp-team">Kansas City Royals</div>
+            <p class="opp-bio">Ever since I was a kid in Venezuela, baseball has been my world. I spent countless hours on fields.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">MLB Debut</span>
+              <span class="opp-tag">MLB Spring Training</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$16,196</span>
+              <span class="opp-raised-pct">14.8% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:14.8%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$2.25</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>38</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- YAIRO PADILLA -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#1e1a2e,#6B21A8);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">Rookie</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 12</span>
+            </div>
+            <span class="opp-position-pill">⚾ Shortstop (SS)</span>
+            <div class="opp-photo-initials">YP</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#1e1a2e,#6B21A8);">YP</div></div>
+            <div class="opp-name">Yairo Padilla</div>
+            <div class="opp-team">St. Louis Cardinals</div>
+            <p class="opp-bio">I'm Yairo Padilla. Some kids grow up with posters on their wall. I grew up with a glove in my hand.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">Top 100</span>
+              <span class="opp-tag">Top 10 2B Prospect</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$5,554</span>
+              <span class="opp-raised-pct">6.9% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:6.9%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.08</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>12</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LUIS BAEZ -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#1a1f1a,#14532d);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">AA</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 19</span>
+            </div>
+            <span class="opp-position-pill">⚾ Starting Pitcher (SP)</span>
+            <div class="opp-photo-initials">LB</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#1a1f1a,#14532d);">LB</div></div>
+            <div class="opp-name">Luis Baez</div>
+            <div class="opp-team">Houston Astros</div>
+            <p class="opp-bio">My name is Luis Baez, and I'm proud to come from the Dominican Republic working my way up through the system.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">All-Star Futures Game</span>
+              <span class="opp-tag">Arizona Fall League All-Star</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$5,177</span>
+              <span class="opp-raised-pct">7.1% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:7.1%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.46</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>14</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- REYNALDO YEAN -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#1a1a1a,#B45309);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">A+</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 44</span>
+            </div>
+            <span class="opp-position-pill">⚾ Relief Pitcher (RP)</span>
+            <div class="opp-photo-initials">RY</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#1a1a1a,#B45309);">RY</div></div>
+            <div class="opp-name">Reynaldo Yean</div>
+            <div class="opp-team">Los Angeles Dodgers</div>
+            <p class="opp-bio">When I was a kid in the Dominican Republic, I wasn't exactly built like a pro athlete. But I loved baseball.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">MLB Debut</span>
+              <span class="opp-tag">2024 Padres MLB Player of the Year</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$866</span>
+              <span class="opp-raised-pct">0.8% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:0.8%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.46</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>2</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AROON ESCOBAR -->
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+        <div class="opp-card">
+          <div class="opp-photo-wrap opp-photo-placeholder" style="background:linear-gradient(160deg,#3a0a0a,#C0392B);">
+            <span class="opp-available-badge">Available</span>
+            <div class="opp-photo-pills">
+              <span class="opp-level-pill">AA</span>
+              <span class="opp-rank-pill"><span class="rank-dot"></span>Org. Rank: 3</span>
+            </div>
+            <span class="opp-position-pill">⚾ Second Base (2B)</span>
+            <div class="opp-photo-initials">AE</div>
+          </div>
+          <div class="opp-body">
+            <div class="opp-avatar-row"><div class="opp-avatar-placeholder" style="background:linear-gradient(135deg,#3a0a0a,#C0392B);">AE</div></div>
+            <div class="opp-name">Aroon Escobar</div>
+            <div class="opp-team">Philadelphia Phillies</div>
+            <p class="opp-bio">Hi, I'm Aroon Escobar. I play third base in the minor leagues for the Philadelphia Phillies.</p>
+            <div class="opp-tags">
+              <span class="opp-tag">Top 100</span>
+              <span class="opp-tag">Top 10 2B Prospect</span>
+            </div>
+            <div class="opp-raised-row">
+              <span class="opp-raised-amount">$16,196</span>
+              <span class="opp-raised-pct">13.14% Raised</span>
+            </div>
+            <div class="opp-progress-bar"><div class="opp-progress-fill" style="width:13.14%"></div></div>
+            <div class="opp-invest-box">
+              <div class="opp-invest-details">
+                <div class="d-flex justify-content-between"><span>Share price</span><strong>$1.83</strong></div>
+                <div class="d-flex justify-content-between mt-1"><span>Investments</span><strong>35</strong></div>
+              </div>
+              <a href="#" class="opp-invest-btn">Invest Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- end opportunities -->
+
 </div>
+
+
+<!-- PROFILE PAGE -->
+<div class="profile-page container-xl py-4 py-md-5 px-3 px-md-4" id="profilePage">
+
+  <div class="mb-4 fade-up">
+    <p class="greeting mb-1">My Account</p>
+    <h1 class="page-title">Profile Settings</h1>
+  </div>
+
+  <!-- Avatar + Name -->
+  <div class="profile-card">
+    <div class="profile-header">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar-placeholder" id="avatarPlaceholder">RN</div>
+        <img src="" alt="Profile" class="profile-avatar-img" id="avatarImg" style="display:none;">
+        <label class="avatar-upload-btn" for="avatarInput" title="Upload photo">
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </label>
+        <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+      </div>
+      <div>
+        <div style="font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600;">Riley Nelson</div>
+        <div style="font-size:13px;color:var(--ink-light);"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="84f6ede8e1fdf4eae1e8f7ebeac4e3e9e5ede8aae7ebe9">[email&#160;protected]</a></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal Info -->
+  <div class="profile-card">
+    <div class="profile-section-title">Personal Information</div>
+    <div class="row g-3">
+      <div class="col-12 col-sm-6">
+        <label class="form-label">First Name</label>
+        <input type="text" class="form-control" value="Riley" placeholder="First name">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="form-label">Last Name</label>
+        <input type="text" class="form-control" value="Nelson" placeholder="Last name">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="form-label">Mobile</label>
+        <input type="tel" class="form-control" placeholder="+1 (555) 000-0000">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" value="rileypnelson@gmail.com" placeholder="Email address">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="form-label">Date of Birth</label>
+        <input type="date" class="form-control">
+      </div>
+    </div>
+  </div>
+
+  <!-- Billing Address -->
+  <div class="profile-card">
+    <div class="profile-section-title">Billing Address</div>
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label">Street Address</label>
+        <input type="text" class="form-control" placeholder="123 Main St">
+      </div>
+      <div class="col-12 col-sm-6">
+        <label class="form-label">City</label>
+        <input type="text" class="form-control" placeholder="City">
+      </div>
+      <div class="col-12 col-sm-3">
+        <label class="form-label">State</label>
+        <input type="text" class="form-control" placeholder="State">
+      </div>
+      <div class="col-12 col-sm-3">
+        <label class="form-label">ZIP Code</label>
+        <input type="text" class="form-control" placeholder="00000">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Country</label>
+        <input type="text" class="form-control" value="United States">
+      </div>
+    </div>
+  </div>
+
+  <!-- Shipping Address -->
+  <div class="profile-card">
+    <div class="profile-section-title">Shipping Address</div>
+    <div class="row g-3">
+      <div class="col-12">
+        <div class="form-check mb-2">
+          <input class="form-check-input" type="checkbox" id="sameAsBilling">
+          <label class="form-check-label" for="sameAsBilling" style="font-size:13px;color:var(--ink-light);">
+            Same as billing address
+          </label>
+        </div>
+      </div>
+      <div id="shippingFields">
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Street Address</label>
+            <input type="text" class="form-control" placeholder="123 Main St">
+          </div>
+          <div class="col-12 col-sm-6">
+            <label class="form-label">City</label>
+            <input type="text" class="form-control" placeholder="City">
+          </div>
+          <div class="col-12 col-sm-3">
+            <label class="form-label">State</label>
+            <input type="text" class="form-control" placeholder="State">
+          </div>
+          <div class="col-12 col-sm-3">
+            <label class="form-label">ZIP Code</label>
+            <input type="text" class="form-control" placeholder="00000">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Country</label>
+            <input type="text" class="form-control" value="United States">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="d-flex justify-content-end pb-5">
+    <button class="cancel-btn" onclick="showDashboard()">Cancel</button>
+    <button class="save-btn" onclick="saveProfile()">Save Changes</button>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="saved-toast" id="savedToast">✓ Profile saved successfully</div>
+
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="scripts.js"></script>
-</body>
-</html>
+<script>
+  // Page navigation
+  function showProfile() {
+    document.getElementById('dashboardPage').style.display = 'none';
+    document.getElementById('profilePage').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  function showDashboard() {
+    document.getElementById('profilePage').style.display = 'none';
+    document.getElementById('dashboardPage').style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+
+  // Avatar upload
+  document.getElementById('avatarInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      document.getElementById('avatarImg').src = ev.target.result;
+      document.getElementById('avatarImg').style.display = 'block';
+      document.getElementById('avatarPlaceholder').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Same as billing checkbox
+  document.getElementById('sameAsBilling').addEventListener('change', function() {
+    document.getElementById('shippingFields').style.display = this.checked ? 'none' : 'block';
+  })
