@@ -504,3 +504,48 @@
     transition: background 0.2s;
   }
   .opp-invest-btn:hover { background: #16A34A; color: white; }
+  /* ── RESPONSIVE FIXES ── */
+
+  /* Prevent horizontal scroll on all screen sizes */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  * { box-sizing: border-box; }
+
+  /* Make toggle wrap scroll on very small screens instead of overflow */
+  .toggle-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .toggle-wrap::-webkit-scrollbar { display: none; }
+
+  /* Toggle pill — don't let it shrink below its content */
+  .toggle-pill { white-space: nowrap; }
+
+  /* Ensure cards never overflow their column */
+  .athlete-card, .opp-card { max-width: 100%; }
+
+  /* Portfolio value card padding on small screens */
+  @media (max-width: 400px) {
+    .total-bar { padding: 20px 16px; }
+    .total-bar-value { font-size: 1.8rem; letter-spacing: -1px; }
+    .total-stat-value { font-size: 1.1rem; }
+    .page-title { font-size: 1.6rem; }
+    .toggle-btn { padding: 9px 16px; font-size: 13px; }
+    .container-xl { padding-left: 12px !important; padding-right: 12px !important; }
+    .navbar { padding: 0 12px; }
+  }
+
+  /* Opportunity cards grid — single column below 480px */
+  @media (max-width: 480px) {
+    .opp-photo-wrap { height: 170px; }
+  }
+
+  /* Profile page — stack header on narrow screens */
+  @media (max-width: 480px) {
+    .profile-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .profile-card { padding: 20px 16px; }
+  }
