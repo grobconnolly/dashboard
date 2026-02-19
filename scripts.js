@@ -141,6 +141,14 @@ document.addEventListener('DOMContentLoaded', function () {
     if (window.Intercom) { Intercom('show'); }
   };
 
+  // ─── PLAYER UPDATE TOGGLE ─────────────────────────────────────
+  window.toggleUpdate = function(btn) {
+    const body = btn.nextElementSibling;
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !expanded);
+    body.classList.toggle('open', !expanded);
+  };
+
   // ─── CARD SCROLL ANIMATIONS ───────────────────────────────────
   const cards = document.querySelectorAll('.athlete-card, .opp-card');
   const observer = new IntersectionObserver((entries) => {

@@ -555,3 +555,66 @@
     .profile-header { flex-direction: column; align-items: flex-start; gap: 12px; }
     .profile-card { padding: 20px 16px; }
   }
+
+  /* PLAYER UPDATE */
+  .player-update-wrap {
+    border-top: 1px solid var(--border);
+    margin: 0 20px;
+  }
+
+  .player-update-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    padding: 12px 0;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    text-align: left;
+  }
+
+  .player-update-toggle-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2D6A4F;
+    flex: 1;
+    letter-spacing: 0.02em;
+  }
+
+  .player-update-date {
+    font-size: 11px;
+    color: var(--ink-light);
+    margin-right: 4px;
+  }
+
+  .player-update-chevron {
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .player-update-toggle[aria-expanded="true"] .player-update-chevron {
+    transform: rotate(180deg);
+  }
+
+  .player-update-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s ease;
+  }
+
+  .player-update-body.open {
+    max-height: 600px;
+    padding-bottom: 14px;
+  }
+
+  .player-update-text {
+    font-size: 13px;
+    color: var(--ink-light);
+    line-height: 1.65;
+    margin: 0;
+  }
