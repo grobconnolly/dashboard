@@ -58,10 +58,15 @@
     background: rgba(255,255,255,0.03);
   }
 
-  .total-bar-label { font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
-  .total-bar-value { font-family: 'Fraunces', serif; font-size: 2.6rem; font-weight: 600; color: white; letter-spacing: -2px; line-height: 1; }
-  .total-stat-label { font-size: 11px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
-  .total-stat-value { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: white; letter-spacing: -0.5px; }
+  .total-bar-label { font-size: 11px; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 8px; }
+  .total-bar-value { font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 600; color: white; letter-spacing: -2px; line-height: 1; margin-bottom: 0; }
+  .total-bar-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 20px 0; }
+
+  .total-stats-row { display: flex; align-items: center; gap: 0; }
+  .total-stat { flex: 1; }
+  .total-stat-sep { width: 1px; height: 32px; background: rgba(255,255,255,0.15); margin: 0 4px; flex-shrink: 0; }
+  .total-stat-label { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
+  .total-stat-value { font-family: 'Fraunces', serif; font-size: 1.25rem; font-weight: 600; color: white; letter-spacing: -0.5px; line-height: 1; }
 
   /* SECTION */
   .section-title { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 300; letter-spacing: -0.3px; }
@@ -217,9 +222,10 @@
 
   @media (max-width: 576px) {
     .total-bar { padding: 22px 20px; }
-    .total-bar-value { font-size: 2rem; }
+    .total-bar-value { font-size: 2.2rem; }
     .page-title { font-size: 1.75rem; }
-    .total-stats-row { margin-top: 16px; }
+    .total-stat-value { font-size: 1rem; }
+    .total-stat-sep { margin: 0 2px; }
   }
 
   /* PROFILE PAGE */
