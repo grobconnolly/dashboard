@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finlete — Data Flow Diagram</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@300;600&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green:       #2D6A4F;
+    --green-dark:  #1A3A2F;
+    --green-light: #E8F5EE;
+    --gold:        #92400E;
+    --gold-light:  #FBF5E6;
+    --ink:         #1A1A1A;
+    --ink-light:   #6B7280;
+    --cream:       #F9F7F4;
+    --white:       #FFFFFF;
+    --border:      #DCEAE3;
+    --blue:        #1D4ED8;
+    --blue-light:  #EFF6FF;
+    --purple:      #5B21B6;
+    --purple-light:#EDE9FE;
+    --amber:       #B45309;
+    --amber-light: #FEF9EC;
+    --red:         #B91C1C;
+    --red-light:   #FEF2F2;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 40px 32px 60px;
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .header-left h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -1px;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 6px;
+  }
+
+  .header-left p {
+    font-size: 13px;
+    color: var(--ink-light);
+  }
+
+  .header-badge {
+    background: var(--green);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 100px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+    padding: 16px 20px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+
+  .legend-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-light);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-right: 4px;
+    align-self: center;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* FLOW CONTAINER */
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-light);
+    margin-bottom: 10px;
+    margin-top: 8px;
+    padding-left: 4px;
+  }
+
+  /* SYSTEM ROW */
+  .system-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  /* SYSTEM BLOCK */
+  .system-block {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 18px;
+    padding: 22px 24px;
+    position: relative;
+  }
+
+  .system-block.dealmaker { border-color: #BFDBFE; background: var(--blue-light); }
+  .system-block.make      { border-color: #DDD6FE; background: var(--purple-light); }
+  .system-block.airtable  { border-color: #FDE68A; background: var(--amber-light); }
+  .system-block.clerk     { border-color: #BBF7D0; background: var(--green-light); }
+  .system-block.klaviyo   { border-color: #FECACA; background: var(--red-light); }
+  .system-block.dashboard { border-color: #2D6A4F; background: var(--green-dark); }
+
+  .system-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .system-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .system-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+
+  .system-role {
+    font-size: 11px;
+    font-weight: 500;
+    margin-top: 1px;
+    opacity: 0.7;
+  }
+
+  .dashboard .system-name,
+  .dashboard .system-role { color: white; }
+
+  /* EVENTS */
+  .events {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .event {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.6);
+  }
+
+  .dashboard .event { background: rgba(255,255,255,0.08); }
+
+  .event-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .dealmaker .event-num { background: var(--blue); }
+  .make .event-num      { background: var(--purple); }
+  .airtable .event-num  { background: var(--amber); }
+  .clerk .event-num     { background: var(--green); }
+  .klaviyo .event-num   { background: var(--red); }
+  .dashboard .event-num { background: rgba(255,255,255,0.9); color: var(--green-dark); }
+
+  .event-content {}
+
+  .event-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  .dashboard .event-title { color: white; }
+
+  .event-desc {
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  .dashboard .event-desc { color: rgba(255,255,255,0.65); }
+
+  .event-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 100px;
+    margin-top: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .tag-blue   { background: #DBEAFE; color: #1E40AF; }
+  .tag-purple { background: #EDE9FE; color: #5B21B6; }
+  .tag-amber  { background: #FEF9C3; color: #854D0E; }
+  .tag-green  { background: #D1FAE5; color: #065F46; }
+  .tag-red    { background: #FEE2E2; color: #991B1B; }
+  .tag-white  { background: rgba(255,255,255,0.2); color: white; }
+
+  /* ARROW */
+  .arrow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 6px 0;
+    position: relative;
+  }
+
+  .arrow-line {
+    flex: 1;
+    height: 1.5px;
+    background: linear-gradient(to right, var(--border), var(--green), var(--border));
+    max-width: 200px;
+  }
+
+  .arrow-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: var(--cream);
+    padding: 0 8px;
+    white-space: nowrap;
+  }
+
+  .arrow-down {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 0;
+    gap: 3px;
+  }
+
+  .arrow-down-line {
+    width: 2px;
+    height: 20px;
+    background: linear-gradient(to bottom, var(--green-light), var(--green));
+  }
+
+  .arrow-down-head {
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 8px solid var(--green);
+  }
+
+  .arrow-down-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* BRANCH ROW */
+  .branch-container {
+    position: relative;
+    margin: 4px 0;
+  }
+
+  .branch-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--purple);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 0 12px;
+  }
+
+  .branch-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .branch-card {
+    border-radius: 16px;
+    padding: 18px 20px;
+    border: 1.5px solid;
+  }
+
+  .branch-new {
+    background: var(--blue-light);
+    border-color: #BFDBFE;
+  }
+
+  .branch-returning {
+    background: var(--green-light);
+    border-color: var(--border);
+  }
+
+  .branch-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .branch-pill {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  .pill-new      { background: var(--blue); color: white; }
+  .pill-returning { background: var(--green); color: white; }
+
+  .branch-card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .branch-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .branch-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+
+  .step-arrow {
+    color: var(--green);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* STATUS BADGES */
+  .status-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  .s-unfunded { background: #FEF9EC; color: #B45309; border-color: #FDE68A; }
+  .s-unfunded .status-dot { background: #F59E0B; }
+  .s-pending  { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
+  .s-pending .status-dot  { background: #3B82F6; }
+  .s-complete { background: #F0FDF4; color: #15803D; border-color: #BBF7D0; }
+  .s-complete .status-dot { background: #22C55E; }
+  .s-cancelled{ background: #FEF2F2; color: #B91C1C; border-color: #FECACA; }
+  .s-cancelled .status-dot{ background: #EF4444; }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-note {
+    font-size: 12px;
+    color: var(--ink-light);
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .footer-date {
+    font-size: 12px;
+    color: var(--ink-light);
+    font-family: 'DM Mono', monospace;
+    white-space: nowrap;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 640px) {
+    body { padding: 24px 16px 40px; }
+    .branch-row { grid-template-columns: 1fr; }
+    .header-left h1 { font-size: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-left">
+    <h1>Finlete V1 — Data Flow</h1>
+    <p>Single source of truth · DealMaker → Automation → Airtable → Clerk → Dashboard</p>
+  </div>
+  <div class="header-badge">Sprint Feb 24 – Mar 8</div>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <span class="legend-title">Systems:</span>
+  <div class="legend-item"><div class="legend-dot" style="background:#3B82F6"></div>DealMaker</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7C3AED"></div>Make (Anton)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#F59E0B"></div>Airtable</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#2D6A4F"></div>Clerk</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#EF4444"></div>Klaviyo</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1A3A2F"></div>Dashboard</div>
+</div>
+
+<div class="flow">
+
+  <!-- ── STEP 1: DEALMAKER ── -->
+  <div class="section-label">Step 1 — Payment</div>
+  <div class="system-block dealmaker">
+    <div class="system-header">
+      <div class="system-icon" style="background:#DBEAFE">💳</div>
+      <div>
+        <div class="system-name" style="color:var(--blue)">DealMaker</div>
+        <div class="system-role" style="color:var(--blue)">Payment processing · compliance · investor_id generation</div>
+      </div>
+    </div>
+    <div class="events">
+      <div class="event">
+        <div class="event-num">1</div>
+        <div class="event-content">
+          <div class="event-title">Investor completes payment</div>
+          <div class="event-desc">Investor finishes checkout on DealMaker. Payment is processed and compliance is handled.</div>
+          <span class="event-tag tag-blue">payment.complete webhook fires</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">2</div>
+        <div class="event-content">
+          <div class="event-title">DealMaker generates investor_id</div>
+          <div class="event-desc">A unique investor_id is assigned to this investor inside DealMaker. This becomes the universal key across all systems.</div>
+          <span class="event-tag tag-blue">investor_id · email · first_name · amount · athlete_id</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">
+    <div class="arrow-down-line"></div>
+    <div class="arrow-down-head"></div>
+    <div class="arrow-down-label">Webhook payload</div>
+  </div>
+
+  <!-- ── STEP 2: MAKE - DETECTION ── -->
+  <div class="section-label">Step 2 — Detection (Anton's Automation)</div>
+  <div class="system-block make">
+    <div class="system-header">
+      <div class="system-icon" style="background:#EDE9FE">⚡</div>
+      <div>
+        <div class="system-name" style="color:var(--purple)">Make</div>
+        <div class="system-role" style="color:var(--purple)">New vs Returning Investor Detection · Task #6</div>
+      </div>
+    </div>
+    <div class="events">
+      <div class="event">
+        <div class="event-num">3</div>
+        <div class="event-content">
+          <div class="event-title">Receive payment.complete webhook</div>
+          <div class="event-desc">Make scenario is triggered. Extracts investor email, first_name, investor_id, athlete_id, and amount from the DealMaker payload.</div>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">4</div>
+        <div class="event-content">
+          <div class="event-title">Check Clerk for existing account</div>
+          <div class="event-desc">Calls Clerk API: GET /v1/users?email_address={email}. Returns user object or empty array.</div>
+          <span class="event-tag tag-purple">Clerk Backend API call</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">5</div>
+        <div class="event-content">
+          <div class="event-title">Router branches based on result</div>
+          <div class="event-desc">User found → Branch A (Returning). Empty array → Branch B (New).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRANCH -->
+  <div class="branch-container">
+    <div class="branch-label">↙ Router Decision ↘</div>
+    <div class="branch-row">
+
+      <!-- BRANCH B: NEW -->
+      <div class="branch-card branch-new">
+        <div class="branch-card-header">
+          <span class="branch-pill pill-new">New Investor</span>
+          <span class="branch-card-title">Branch B</span>
+        </div>
+        <div class="branch-steps">
+          <div class="branch-step"><span class="step-arrow">→</span>Create Airtable investment record with status = Unfunded</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Generate Clerk magic link via API</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Trigger Klaviyo email with magic link embedded</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Log magic_link_sent + timestamp to Airtable</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Investor claims account → Clerk account created</div>
+          <div class="branch-step"><span class="step-arrow">→</span>investor_id written to Clerk publicMetadata</div>
+        </div>
+      </div>
+
+      <!-- BRANCH A: RETURNING -->
+      <div class="branch-card branch-returning">
+        <div class="branch-card-header">
+          <span class="branch-pill pill-returning">Returning Investor</span>
+          <span class="branch-card-title">Branch A</span>
+        </div>
+        <div class="branch-steps">
+          <div class="branch-step"><span class="step-arrow">→</span>Confirm investor_id exists in Airtable</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Confirm Clerk account is active</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Create new Airtable investment record linked to existing investor_id</div>
+          <div class="branch-step"><span class="step-arrow">→</span>No email sent — investor needs no action</div>
+          <div class="branch-step"><span class="step-arrow">→</span>New investment appears on dashboard at next login</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="arrow-down">
+    <div class="arrow-down-line"></div>
+    <div class="arrow-down-head"></div>
+    <div class="arrow-down-label">Investment record created</div>
+  </div>
+
+  <!-- ── STEP 3: AIRTABLE ── -->
+  <div class="section-label">Step 3 — Airtable (Source of Truth)</div>
+  <div class="system-block airtable">
+    <div class="system-header">
+      <div class="system-icon" style="background:#FEF9C3">🗄️</div>
+      <div>
+        <div class="system-name" style="color:var(--amber)">Airtable</div>
+        <div class="system-role" style="color:var(--amber)">Single source of truth for all investor and investment data</div>
+      </div>
+    </div>
+    <div class="events">
+      <div class="event">
+        <div class="event-num">6</div>
+        <div class="event-content">
+          <div class="event-title">Investment record created</div>
+          <div class="event-desc">New row written to the Investments table: investor_id, athlete_id, amount, investment_date, stake_percentage, status.</div>
+          <span class="event-tag tag-amber">Initial status: Unfunded</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">7</div>
+        <div class="event-content">
+          <div class="event-title">Status updates automatically via Investment Status Automation</div>
+          <div class="event-desc">DealMaker webhooks trigger Make automations that update the status field in real time.</div>
+          <div class="status-row" style="margin-top:8px">
+            <span class="status-badge s-unfunded"><span class="status-dot"></span>Unfunded</span>
+            <span class="status-badge s-pending"><span class="status-dot"></span>Funded (Pending)</span>
+            <span class="status-badge s-complete"><span class="status-dot"></span>Complete</span>
+            <span class="status-badge s-cancelled"><span class="status-dot"></span>Cancelled</span>
+          </div>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">8</div>
+        <div class="event-content">
+          <div class="event-title">Player updates added by Finlete staff</div>
+          <div class="event-desc">Staff add rows to the Player Updates table. Make detects new records and the dashboard renders them automatically on the correct athlete card.</div>
+          <span class="event-tag tag-amber">Player Updates table → dashboard</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">
+    <div class="arrow-down-line"></div>
+    <div class="arrow-down-head"></div>
+    <div class="arrow-down-label">Auth + investor_id</div>
+  </div>
+
+  <!-- ── STEP 4: CLERK ── -->
+  <div class="section-label">Step 4 — Clerk (Authentication)</div>
+  <div class="system-block clerk">
+    <div class="system-header">
+      <div class="system-icon" style="background:#D1FAE5">🔐</div>
+      <div>
+        <div class="system-name" style="color:var(--green)">Clerk</div>
+        <div class="system-role" style="color:var(--green)">Authentication · sessions · investor_id in publicMetadata</div>
+      </div>
+    </div>
+    <div class="events">
+      <div class="event">
+        <div class="event-num">9</div>
+        <div class="event-content">
+          <div class="event-title">New investor claims account</div>
+          <div class="event-desc">Investor clicks magic link → lands on Claim Account screen → sets password → Clerk account created. investor_id written to publicMetadata immediately.</div>
+          <span class="event-tag tag-green">publicMetadata: { investor_id: "X" }</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">10</div>
+        <div class="event-content">
+          <div class="event-title">Returning investor logs in</div>
+          <div class="event-desc">Email + password login via Clerk. Session created. investor_id read from publicMetadata on every page load.</div>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">11</div>
+        <div class="event-content">
+          <div class="event-title">Session passed to dashboard</div>
+          <div class="event-desc">Clerk session confirms identity. Dashboard reads investor_id and uses it to query Airtable for this investor's specific data.</div>
+          <span class="event-tag tag-green">investor_id → Airtable query</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-down">
+    <div class="arrow-down-line"></div>
+    <div class="arrow-down-head"></div>
+    <div class="arrow-down-label">Live investor data</div>
+  </div>
+
+  <!-- ── STEP 5: DASHBOARD ── -->
+  <div class="section-label">Step 5 — Investor Dashboard</div>
+  <div class="system-block dashboard">
+    <div class="system-header">
+      <div class="system-icon" style="background:rgba(255,255,255,0.15)">📊</div>
+      <div>
+        <div class="system-name">Finlete Dashboard</div>
+        <div class="system-role">What the investor sees · rendered from live Airtable data</div>
+      </div>
+    </div>
+    <div class="events">
+      <div class="event">
+        <div class="event-num">12</div>
+        <div class="event-content">
+          <div class="event-title">Dashboard loads with investor-specific data</div>
+          <div class="event-desc">investor_id from Clerk → Airtable query → investments grouped by athlete → masonry card grid rendered dynamically.</div>
+          <span class="event-tag tag-white">Total Invested · Stake % · Investment line items</span>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">13</div>
+        <div class="event-content">
+          <div class="event-title">Investment statuses render in real time</div>
+          <div class="event-desc">Each investment line item reads its status from Airtable. As Anton's automations update the status field, the dashboard reflects changes on next load.</div>
+        </div>
+      </div>
+      <div class="event">
+        <div class="event-num">14</div>
+        <div class="event-content">
+          <div class="event-title">Player updates appear automatically</div>
+          <div class="event-desc">When Finlete staff add a player update to Airtable, it appears on the correct athlete card for all investors who back that athlete.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-note">
+    <strong>Source of Truth:</strong> Airtable owns all investor and investment data. DealMaker handles payment and compliance only. Clerk handles authentication only. If Finlete moves off DealMaker in the future, all investor data remains intact in Airtable.
+  </div>
+  <div class="footer-date">Finlete V1 · Feb 2026</div>
+</div>
+
+</body>
+</html>
