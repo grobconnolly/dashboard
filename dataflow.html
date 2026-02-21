@@ -480,7 +480,7 @@
 <div class="header">
   <div class="header-left">
     <h1>Finlete V1 — Data Flow</h1>
-    <p>Single source of truth · DealMaker → Automation → Airtable → Clerk → Dashboard</p>
+    <p>Single source of truth · DealMaker → Automation → Airtable → Clerk → Next.js Dashboard</p>
   </div>
   <div class="header-badge">Sprint Feb 24 – Mar 8</div>
 </div>
@@ -513,16 +513,16 @@
         <div class="event-num">1</div>
         <div class="event-content">
           <div class="event-title">Investor completes payment</div>
-          <div class="event-desc">Investor finishes checkout on DealMaker. Payment is processed and compliance is handled.</div>
-          <span class="event-tag tag-blue">payment.complete webhook fires</span>
+          <div class="event-desc">Investor finishes checkout on DealMaker. Payment is processed and compliance is handled. DealMaker POSTs the investor object to Finlete's registered webhook URL.</div>
+          <span class="event-tag tag-blue">Generic webhook payload fires — no named event type</span>
         </div>
       </div>
       <div class="event">
         <div class="event-num">2</div>
         <div class="event-content">
-          <div class="event-title">DealMaker generates investor_id</div>
-          <div class="event-desc">A unique investor_id is assigned to this investor inside DealMaker. This becomes the universal key across all systems.</div>
-          <span class="event-tag tag-blue">investor_id · email · first_name · amount · athlete_id</span>
+          <div class="event-title">DealMaker returns investor object</div>
+          <div class="event-desc">The webhook payload contains the full investor object. Key fields: <strong>id</strong> (DealMaker investor id), <strong>user.id</strong> (DealMaker user id), <strong>user.email</strong>, <strong>name</strong>, <strong>funding_state</strong>, <strong>status</strong>, <strong>investment_value</strong>, and <strong>new_investor</strong> boolean.</div>
+          <span class="event-tag tag-blue">new_investor · user.id · user.email · funding_state · status</span>
         </div>
       </div>
     </div>
@@ -548,23 +548,23 @@
       <div class="event">
         <div class="event-num">3</div>
         <div class="event-content">
-          <div class="event-title">Receive payment.complete webhook</div>
-          <div class="event-desc">Make scenario is triggered. Extracts investor email, first_name, investor_id, athlete_id, and amount from the DealMaker payload.</div>
+          <div class="event-title">Receive DealMaker webhook payload</div>
+          <div class="event-desc">Make scenario is triggered. Extracts investor fields from the payload: user.email, name, user.id, funding_state, status, investment_value, and new_investor boolean.</div>
         </div>
       </div>
       <div class="event">
         <div class="event-num">4</div>
         <div class="event-content">
-          <div class="event-title">Check Clerk for existing account</div>
-          <div class="event-desc">Calls Clerk API: GET /v1/users?email_address={email}. Returns user object or empty array.</div>
-          <span class="event-tag tag-purple">Clerk Backend API call</span>
+          <div class="event-title">Read new_investor boolean from payload</div>
+          <div class="event-desc">DealMaker flags new_investor: true on first-ever investment. No Clerk API call needed for detection — the payload provides the answer directly.</div>
+          <span class="event-tag tag-purple">new_investor: true = new · false = returning</span>
         </div>
       </div>
       <div class="event">
         <div class="event-num">5</div>
         <div class="event-content">
           <div class="event-title">Router branches based on result</div>
-          <div class="event-desc">User found → Branch A (Returning). Empty array → Branch B (New).</div>
+          <div class="event-desc">new_investor = true → Branch B (New). new_investor = false → Branch A (Returning). ⚠️ Confirm with Eric: does new_investor = true on a returning investor's first investment in a new deal?</div>
         </div>
       </div>
     </div>
@@ -583,11 +583,12 @@
         </div>
         <div class="branch-steps">
           <div class="branch-step"><span class="step-arrow">→</span>Create Airtable investment record with status = Unfunded</div>
-          <div class="branch-step"><span class="step-arrow">→</span>Generate Clerk magic link via API</div>
-          <div class="branch-step"><span class="step-arrow">→</span>Trigger Klaviyo email with magic link embedded</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Generate Clerk sign-in token via Backend API (POST /v1/sign_in_tokens)</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Embed token in URL: /sign-in?__clerk_ticket={token}</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Trigger Klaviyo email with magic link + first_name from payload</div>
           <div class="branch-step"><span class="step-arrow">→</span>Log magic_link_sent + timestamp to Airtable</div>
-          <div class="branch-step"><span class="step-arrow">→</span>Investor claims account → Clerk account created</div>
-          <div class="branch-step"><span class="step-arrow">→</span>investor_id written to Clerk publicMetadata</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Investor clicks link → &lt;SignIn /&gt; detects __clerk_ticket → signs in automatically</div>
+          <div class="branch-step"><span class="step-arrow">→</span>investor_id (user.id) written to Clerk publicMetadata via Route Handler</div>
         </div>
       </div>
 
@@ -637,13 +638,13 @@
       <div class="event">
         <div class="event-num">7</div>
         <div class="event-content">
-          <div class="event-title">Status updates automatically via Investment Status Automation</div>
-          <div class="event-desc">DealMaker webhooks trigger Make automations that update the status field in real time.</div>
+          <div class="event-title">Status updates via Investment Status Automation</div>
+          <div class="event-desc">Make reads <strong>status</strong> and <strong>funding_state</strong> fields from every incoming DealMaker payload and updates Airtable. Priority order: Complete → Cancelled → Funded (Pending).</div>
           <div class="status-row" style="margin-top:8px">
-            <span class="status-badge s-unfunded"><span class="status-dot"></span>Unfunded</span>
-            <span class="status-badge s-pending"><span class="status-dot"></span>Funded (Pending)</span>
-            <span class="status-badge s-complete"><span class="status-dot"></span>Complete</span>
-            <span class="status-badge s-cancelled"><span class="status-dot"></span>Cancelled</span>
+            <span class="status-badge s-unfunded"><span class="status-dot"></span>funding_state = unfunded</span>
+            <span class="status-badge s-pending"><span class="status-dot"></span>funding_state = funded</span>
+            <span class="status-badge s-complete"><span class="status-dot"></span>status = complete</span>
+            <span class="status-badge s-cancelled"><span class="status-dot"></span>status = cancelled</span>
           </div>
         </div>
       </div>
@@ -671,23 +672,23 @@
       <div class="system-icon" style="background:#D1FAE5">🔐</div>
       <div>
         <div class="system-name" style="color:var(--green)">Clerk</div>
-        <div class="system-role" style="color:var(--green)">Authentication · sessions · investor_id in publicMetadata</div>
+        <div class="system-role" style="color:var(--green)">Authentication · sessions · investor_id in publicMetadata · Next.js App Router</div>
       </div>
     </div>
     <div class="events">
       <div class="event">
         <div class="event-num">9</div>
         <div class="event-content">
-          <div class="event-title">New investor claims account</div>
-          <div class="event-desc">Investor clicks magic link → lands on Claim Account screen → sets password → Clerk account created. investor_id written to publicMetadata immediately.</div>
-          <span class="event-tag tag-green">publicMetadata: { investor_id: "X" }</span>
+          <div class="event-title">New investor claims account via magic link</div>
+          <div class="event-desc">Investor clicks magic link (URL contains <code style="font-family:'DM Mono',monospace;font-size:11px">?__clerk_ticket={token}</code>). Lands on <strong>/sign-in</strong> route. Clerk's prebuilt <strong>&lt;SignIn /&gt;</strong> component detects the ticket param and signs the investor in automatically — no custom claim screen needed. DealMaker user.id written to publicMetadata as investor_id via Next.js Route Handler.</div>
+          <span class="event-tag tag-green">publicMetadata: { investor_id: user.id }</span>
         </div>
       </div>
       <div class="event">
         <div class="event-num">10</div>
         <div class="event-content">
           <div class="event-title">Returning investor logs in</div>
-          <div class="event-desc">Email + password login via Clerk. Session created. investor_id read from publicMetadata on every page load.</div>
+          <div class="event-desc">Email + password login via Clerk's prebuilt <strong>&lt;SignIn /&gt;</strong> on the /sign-in route. Forgot password flow is built into &lt;SignIn /&gt; — no custom reset screen needed. Session created. investor_id read from publicMetadata on every page load.</div>
         </div>
       </div>
       <div class="event">
@@ -714,7 +715,7 @@
       <div class="system-icon" style="background:rgba(255,255,255,0.15)">📊</div>
       <div>
         <div class="system-name">Finlete Dashboard</div>
-        <div class="system-role">What the investor sees · rendered from live Airtable data</div>
+        <div class="system-role">What the investor sees · Next.js App Router · rendered from live Airtable data</div>
       </div>
     </div>
     <div class="events">
@@ -748,7 +749,9 @@
 <!-- FOOTER -->
 <div class="footer">
   <div class="footer-note">
-    <strong>Source of Truth:</strong> Airtable owns all investor and investment data. DealMaker handles payment and compliance only. Clerk handles authentication only. If Finlete moves off DealMaker in the future, all investor data remains intact in Airtable.
+    <strong>Source of Truth:</strong> Airtable owns all investor and investment data. DealMaker handles payment and compliance only. Clerk handles authentication only. If Finlete moves off DealMaker in the future, all investor data remains intact in Airtable.<br><br>
+    <strong>✅ Confirmed (Eric, Feb 21):</strong> Using Clerk prebuilt &lt;SignIn /&gt; component. Next.js App Router migration required. Magic link handled automatically via __clerk_ticket param inside &lt;SignIn /&gt;. Forgot password handled automatically inside &lt;SignIn /&gt; — no custom screens needed.<br><br>
+    <strong>⚠️ Pending Eric confirmation (Architecture Review Tue Feb 24):</strong> Should investor_id store DealMaker <em>investor.id</em> (per-investment) or <em>user.id</em> (per-person)? Does new_investor = true fire on a returning investor's first investment in a new deal? Should new investors be required to set a password after magic link sign-in, or is that deferred to account settings?
   </div>
   <div class="footer-date">Finlete V1 · Feb 2026</div>
 </div>
