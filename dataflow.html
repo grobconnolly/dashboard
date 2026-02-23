@@ -585,7 +585,7 @@
           <div class="branch-step"><span class="step-arrow">→</span>Create Airtable investment record with status = Unfunded</div>
           <div class="branch-step"><span class="step-arrow">→</span>Generate Clerk sign-in token via Backend API (POST /v1/sign_in_tokens)</div>
           <div class="branch-step"><span class="step-arrow">→</span>Embed token in URL: /sign-in?__clerk_ticket={token}</div>
-          <div class="branch-step"><span class="step-arrow">→</span>Trigger Klaviyo email with magic link + first_name from payload</div>
+          <div class="branch-step"><span class="step-arrow">→</span>Clerk sends magic link email natively (configured in Clerk Dashboard — no Klaviyo needed for this transactional email)</div>
           <div class="branch-step"><span class="step-arrow">→</span>Log magic_link_sent + timestamp to Airtable</div>
           <div class="branch-step"><span class="step-arrow">→</span>Investor clicks link → &lt;SignIn /&gt; detects __clerk_ticket → signs in automatically</div>
           <div class="branch-step"><span class="step-arrow">→</span>investor_id (user.id) written to Clerk publicMetadata via Route Handler</div>
@@ -681,7 +681,7 @@
         <div class="event-content">
           <div class="event-title">New investor claims account via magic link</div>
           <div class="event-desc">Investor clicks magic link (URL contains <code style="font-family:'DM Mono',monospace;font-size:11px">?__clerk_ticket={token}</code>). Lands on <strong>/sign-in</strong> route. Clerk's prebuilt <strong>&lt;SignIn /&gt;</strong> component detects the ticket param and signs the investor in automatically — no custom claim screen needed. DealMaker user.id written to publicMetadata as investor_id via Next.js Route Handler.</div>
-          <span class="event-tag tag-green">publicMetadata: { investor_id: user.id }</span>
+          <span class="event-tag tag-green">privateMetadata: { investor_id: user.id } — server-only</span>
         </div>
       </div>
       <div class="event">
@@ -695,8 +695,8 @@
         <div class="event-num">11</div>
         <div class="event-content">
           <div class="event-title">Session passed to dashboard</div>
-          <div class="event-desc">Clerk session confirms identity. Dashboard reads investor_id and uses it to query Airtable for this investor's specific data.</div>
-          <span class="event-tag tag-green">investor_id → Airtable query</span>
+          <div class="event-desc">Clerk session confirms identity. Dashboard reads investor_id from <strong>privateMetadata</strong> server-side (Next.js Server Component or Route Handler only — never client-side) and uses it to query Airtable for this investor's specific data.</div>
+          <span class="event-tag tag-green">privateMetadata → server-side Airtable query</span>
         </div>
       </div>
     </div>
@@ -750,7 +750,7 @@
 <div class="footer">
   <div class="footer-note">
     <strong>Source of Truth:</strong> Airtable owns all investor and investment data. DealMaker handles payment and compliance only. Clerk handles authentication only. If Finlete moves off DealMaker in the future, all investor data remains intact in Airtable.<br><br>
-    <strong>✅ Confirmed (Eric, Feb 21):</strong> Using Clerk prebuilt &lt;SignIn /&gt; component. Next.js App Router migration required. Magic link handled automatically via __clerk_ticket param inside &lt;SignIn /&gt;. Forgot password handled automatically inside &lt;SignIn /&gt; — no custom screens needed.<br><br>
+    <strong>✅ Confirmed (Eric, Feb 21–23):</strong> Using Clerk prebuilt &lt;SignIn /&gt; component. Next.js App Router migration required. Magic link handled automatically via __clerk_ticket param inside &lt;SignIn /&gt;. Forgot password handled automatically inside &lt;SignIn /&gt; — no custom screens needed. Magic link email sent via Clerk native invite (not Klaviyo) — configure branding in Clerk Dashboard. investor_id must be stored in <strong>privateMetadata</strong> (server-only), not publicMetadata.<br><br>
     <strong>⚠️ Pending Eric confirmation (Architecture Review Tue Feb 24):</strong> Should investor_id store DealMaker <em>investor.id</em> (per-investment) or <em>user.id</em> (per-person)? Does new_investor = true fire on a returning investor's first investment in a new deal? Should new investors be required to set a password after magic link sign-in, or is that deferred to account settings?
   </div>
   <div class="footer-date">Finlete V1 · Feb 2026</div>
